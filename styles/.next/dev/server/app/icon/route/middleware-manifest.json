@@ -1,0 +1,57 @@
+{
+  "sorted_middleware": [
+    "/icon/route"
+  ],
+  "middleware": {},
+  "instrumentation": null,
+  "functions": {
+    "/icon/route": {
+      "files": [
+        "server/middleware-build-manifest.js",
+        "server/interception-route-rewrite-manifest.js",
+        "server/server-reference-manifest.js",
+        "server/app/icon/route_client-reference-manifest.js",
+        "server/edge/chunks/_next-internal_server_app_icon_route_actions_6c46f2f4.js",
+        "server/edge/chunks/node_modules_next_dist_esm_d587d672._.js",
+        "server/edge/chunks/node_modules_next_dist_compiled_react-server-dom-turbopack_1d71ac1e._.js",
+        "server/edge/chunks/node_modules_next_dist_compiled_@vercel_og_16be1ace._.js",
+        "server/edge/chunks/node_modules_next_dist_compiled_760ab273._.js",
+        "server/edge/chunks/node_modules_next_dist_7bea040f._.js",
+        "server/edge/chunks/edge-wrapper_ce73d8ea.js",
+        "server/edge/chunks/[root-of-the-server]__64f2736d._.js",
+        "server/edge/chunks/turbopack-edge-wrapper_0d59dadd.js"
+      ],
+      "name": "app/icon/route",
+      "page": "/icon/route",
+      "matchers": [
+        {
+          "regexp": "^/icon(?:/)?$",
+          "originalSource": "/icon"
+        }
+      ],
+      "wasm": [
+        {
+          "name": "wasm_fdb56e4cc5936d29",
+          "filePath": "server/edge/chunks/node_modules_next_dist_compiled_@vercel_og_resvg_23ace1ce.wasm"
+        },
+        {
+          "name": "wasm_1ccdc983b1fd9f87",
+          "filePath": "server/edge/chunks/node_modules_next_dist_compiled_@vercel_og_yoga_23ace1ce.wasm"
+        }
+      ],
+      "assets": [
+        {
+          "name": "server/edge/assets/noto-sans-v27-latin-regular.bdfa676c.ttf",
+          "filePath": "server/edge/assets/noto-sans-v27-latin-regular.bdfa676c.ttf"
+        }
+      ],
+      "env": {
+        "__NEXT_BUILD_ID": "development",
+        "NEXT_SERVER_ACTIONS_ENCRYPTION_KEY": "kAXM/VY7LlBKlPJyK1Xg5OOD4ZT00g4W/gU2IowkcXo=",
+        "__NEXT_PREVIEW_MODE_ID": "8d0fa4683fbe9af1e7d13392afca58a0",
+        "__NEXT_PREVIEW_MODE_ENCRYPTION_KEY": "f9e79f92a4d50d4568e74f0bcc086a9030e472989b168a5edf96f2c40479ec09",
+        "__NEXT_PREVIEW_MODE_SIGNING_KEY": "a509e60b244edd71f37222bf9f1b57c5a79d13c1b81f7a82f95210e095dbf0fc"
+      }
+    }
+  }
+}

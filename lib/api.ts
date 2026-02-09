@@ -1,5 +1,5 @@
 export const BASE_URL =
-    process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3001';
+    process.env.NEXT_PUBLIC_SOCKET_URL || 'https://kaspa-auction-server.vercel.app';
 
 export const apiGet = async <T = any>(path: string): Promise<T> => {
     const res = await fetch(`${BASE_URL}${path}`, {

@@ -12,6 +12,7 @@ import { formatKAS } from '@/lib/mock-data'
 import { useWallet } from '@/context/wallet-context'
 import { Trash2 } from 'lucide-react'
 import type { Auction } from '@/types/auction'
+import { apiDelete } from '@/lib/api'
 
 interface AuctionCardProps {
   auction: Auction
@@ -21,7 +22,7 @@ interface AuctionCardProps {
 export function AuctionCard({ auction, className }: AuctionCardProps) {
   const isEnded = auction.status === 'ended'
   const isLive = auction.status === 'live' || auction.status === 'ending-soon'
-  const { walletAddress } = useWallet()
+  const { address: walletAddress } = useWallet()
   const isOwner = walletAddress && auction.seller.address === walletAddress
   const canDelete = isOwner && auction.bidCount === 0
 
@@ -32,21 +33,13 @@ export function AuctionCard({ auction, className }: AuctionCardProps) {
     if (!confirm('Are you sure you want to delete this auction?')) return
 
     try {
-      const response = await fetch(`http://localhost:3005/api/auctions/${auction.id}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sellerAddress: walletAddress })
-      })
-
-      if (response.ok) {
-        // UI will update via socket event
-      } else {
-        alert('Failed to delete auction')
-      }
+      await apiDelete(`/api/auctions/${auction.id}`, { sellerAddress: walletAddress });
+      // UI will update via socket event/refresh
     } catch (err) {
       console.error(err)
       alert('Error deleting auction')
     }
+
   }
 
   return (

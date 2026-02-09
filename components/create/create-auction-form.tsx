@@ -24,6 +24,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card'
 import { AuctionCardPreview } from '@/components/create/auction-card-preview'
 import { formatKAS } from '@/lib/mock-data'
+import { apiPost } from '@/lib/api'
 
 const durationOptions = [
   { label: '1 Hour', value: 1 },
@@ -177,23 +178,15 @@ export function CreateAuctionForm() {
     setFormState('submitting')
 
     try {
-      const socketUrl = process.env.NEXT_PUBLIC_SOCKET_URL || 'http://localhost:3005';
-      console.log('[CreateAuctionForm] Using socket URL for API:', socketUrl);
-      const response = await fetch(`${socketUrl}/api/auctions`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          imageUrl: imagePreview, // include base64 image data
-          sellerAddress: walletInfo.address || formData.receivingAddress, // Use connected wallet as seller
-          startTime: new Date().toISOString(),
-          endTime: new Date(Date.now() + formData.duration * 3600000).toISOString(),
-        }),
+      console.log('[CreateAuctionForm] Submitting auction to API...');
+      const data = await apiPost('/api/auctions', {
+        ...formData,
+        imageUrl: imagePreview, // include base64 image data
+        sellerAddress: walletInfo.address || formData.receivingAddress, // Use connected wallet as seller
+        startTime: new Date().toISOString(),
+        endTime: new Date(Date.now() + formData.duration * 3600000).toISOString(),
       });
 
-      if (!response.ok) throw new Error('Failed to create auction');
-
-      const data = await response.json();
       if (data.auction && data.auction.id) {
         setCreatedAuctionId(data.auction.id);
       }

@@ -28,6 +28,7 @@ import { BidControls } from '@/components/bid-controls'
 import { getExplorerAddressUrl } from '@/lib/constants'
 import { formatKAS, mockBidStream } from '@/lib/mock-data'
 import type { Auction } from '@/types/auction'
+import { apiDelete } from '@/lib/api'
 
 interface AuctionDetailsViewProps {
   auction: Auction
@@ -55,17 +56,10 @@ export function AuctionDetailsView({ auction }: AuctionDetailsViewProps) {
       // Get current address directly from window object or context
       const currentAddress = walletAddress
 
-      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3005'}/api/auctions/${auction.id}`, {
-        method: 'DELETE',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ sellerAddress: currentAddress })
-      })
+      await apiDelete(`/api/auctions/${auction.id}`, { sellerAddress: currentAddress });
 
-      if (response.ok) {
-        window.location.href = '/' // Redirect to home on success
-      } else {
-        alert('Failed to delete auction')
-      }
+      // If successful (no error thrown)
+      window.location.href = '/' // Redirect to home on success
     } catch (err) {
       console.error(err)
       alert('Error deleting auction')

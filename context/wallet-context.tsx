@@ -13,6 +13,7 @@ interface WalletState {
 interface WalletContextType extends WalletState {
     connect: () => Promise<void>
     disconnect: () => void
+    refreshBalance: () => Promise<void>
     isConnecting: boolean
     error: string | null
 }
@@ -45,6 +46,12 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
             setError('Failed to fetch balance')
         }
     }, [])
+
+    const refreshBalance = useCallback(async () => {
+        if (wallet.connected && wallet.address) {
+            await updateWalletInfo(wallet.address)
+        }
+    }, [wallet.connected, wallet.address, updateWalletInfo])
 
     const checkConnection = useCallback(async () => {
         if (typeof window.kasware !== 'undefined') {
@@ -98,7 +105,7 @@ export function WalletProvider({ children }: { children: React.ReactNode }) {
     }
 
     return (
-        <WalletContext.Provider value={{ ...wallet, connect, disconnect, isConnecting, error }}>
+        <WalletContext.Provider value={{ ...wallet, connect, disconnect, refreshBalance, isConnecting, error }}>
             {children}
         </WalletContext.Provider>
     )

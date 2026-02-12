@@ -8,6 +8,7 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { formatKAS } from '@/lib/mock-data'
+import { useWallet } from '@/context/wallet-context'
 
 type BidState = 'idle' | 'signing' | 'broadcasting' | 'success' | 'error'
 
@@ -33,6 +34,7 @@ export function BidControls({
   const [bidAmount, setBidAmount] = useState(currentPrice + minimumIncrement)
   const [bidState, setBidState] = useState<BidState>('idle')
   const [error, setError] = useState<string | null>(null)
+  const { refreshBalance } = useWallet()
 
   const quickIncrements = [
     { label: '+100', value: 100 },
@@ -51,6 +53,8 @@ export function BidControls({
     setBidAmount(value)
     setError(null)
   }
+
+
 
   const handlePlaceBid = useCallback(async () => {
     // 1. Check for provider
@@ -132,6 +136,12 @@ export function BidControls({
         await onPlaceBid(bidAmount, txHash)
       }
 
+      // 3. Refresh Balance
+      console.log('[BidControls] Refreshing wallet balance...');
+      // Wait a short moment for the tx to populate in local mempool if needed, 
+      // though KasWare might reflect it immediately after `sendKaspa` yields.
+      setTimeout(() => refreshBalance(), 1000);
+
       setBidState('success')
 
       // Reset after success
@@ -145,7 +155,7 @@ export function BidControls({
       setError(err.message || 'Failed to place bid')
       setTimeout(() => setBidState('idle'), 5000)
     }
-  }, [bidAmount, currentPrice, minimumIncrement, isConnected, onPlaceBid, onConnect, destinationAddress])
+  }, [bidAmount, currentPrice, minimumIncrement, isConnected, onPlaceBid, onConnect, destinationAddress, refreshBalance])
 
   const getBidButtonContent = () => {
     switch (bidState) {

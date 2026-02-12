@@ -3,8 +3,20 @@ const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  swcMinify: true,
+  compress: true,
+  poweredByHeader: false,
   images: {
-    unoptimized: true,
+    // unoptimized: true, // Removed to enable optimization
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
+  },
+  compiler: {
+    removeConsole: process.env.NODE_ENV === 'production' ? { exclude: ['error', 'warn'] } : false,
   },
 }
 

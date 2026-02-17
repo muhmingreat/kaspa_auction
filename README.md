@@ -2,8 +2,7 @@
 
 **A real-time, high-frequency auction platform powered by Kaspa's BlockDAG.**
 
-![Kaspa Auction Engine](https://github.com/YourUsername/kaspa-auction-engine/raw/main/public/demo-screenshot.png) 
-*(Replace with actual screenshot or delete if not available)*
+
 
 ## 🎥 Demo & Live Link
 
